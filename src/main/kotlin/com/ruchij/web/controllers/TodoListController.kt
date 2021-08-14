@@ -2,6 +2,7 @@ package com.ruchij.web.controllers
 
 import com.ruchij.services.todolist.TodoListService
 import com.ruchij.web.requests.CreateTodoListItemRequest
+import com.ruchij.web.requests.UpdateTodoListItemRequest
 import com.ruchij.web.responses.TodoListItemResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -19,8 +20,22 @@ class TodoListController(private val todoListService: TodoListService) {
         return TodoListItemResponse.from(todoListItem)
     }
 
-    @GetMapping("/{todo-list-item-id}")
-    fun getById(@PathVariable("todo-list-item-id") todoListItemId: String): TodoListItemResponse =
+    @GetMapping("/{item-id}")
+    fun getById(@PathVariable("item-id") todoListItemId: String): TodoListItemResponse =
         TodoListItemResponse.from(todoListService.getById(todoListItemId))
+
+    @PutMapping("/{item-id}")
+    fun updateById(
+        @PathVariable("item-id") todoListItemId: String,
+        @RequestBody updateTodoListItemRequest: UpdateTodoListItemRequest
+    ): TodoListItemResponse =
+        TodoListItemResponse.from(
+            todoListService.updateById(
+                todoListItemId,
+                updateTodoListItemRequest.title,
+                updateTodoListItemRequest.description,
+                updateTodoListItemRequest.status
+            )
+        )
 
 }
