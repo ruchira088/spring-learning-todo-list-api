@@ -3,9 +3,12 @@ package com.ruchij.services.todolist
 import com.ruchij.daos.todolistitem.TodoListItemDao
 import com.ruchij.daos.todolistitem.models.TodoListItem
 import com.ruchij.daos.todolistitem.models.TodoListItemStatus
+import com.ruchij.exceptions.ResourceNotFoundException
+import org.springframework.stereotype.Service
 import org.springframework.util.IdGenerator
 import java.time.Clock
 
+@Service
 class TodoListServiceImpl(
     private val todoListItemDao: TodoListItemDao,
     private val clock: Clock,
@@ -23,5 +26,10 @@ class TodoListServiceImpl(
 
         return todoListItem
     }
+
+    override fun getById(id: String): TodoListItem =
+        todoListItemDao.findById(id).orElseThrow {
+            ResourceNotFoundException("Unable to find todo list item with ID = $id")
+        }
 
 }
