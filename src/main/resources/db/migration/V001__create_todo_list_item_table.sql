@@ -1,5 +1,5 @@
 
-CREATE table todo_list_items(
+CREATE table todo_list_item(
     id VARCHAR(40) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     status VARCHAR(24) NOT NULL,
@@ -7,4 +7,4 @@ CREATE table todo_list_items(
     description TEXT NULL,
     completed_at TIMESTAMP NULL,
     PRIMARY KEY (id)
-)
+);

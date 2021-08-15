@@ -4,7 +4,7 @@ import java.time.Instant
 import javax.persistence.Entity
 import javax.persistence.Id
 
-@Entity(name = "todo_list_items")
+@Entity(name = "todo_list_item")
 data class TodoListItem(
     @Id val id: String,
     val createdAt: Instant,

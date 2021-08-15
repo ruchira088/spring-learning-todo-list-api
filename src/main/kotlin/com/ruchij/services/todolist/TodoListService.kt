@@ -1,12 +1,25 @@
 package com.ruchij.services.todolist
 
+import com.ruchij.daos.todolist.models.TodoList
 import com.ruchij.daos.todolistitem.models.TodoListItem
 import com.ruchij.daos.todolistitem.models.TodoListItemStatus
 
 interface TodoListService {
-    fun create(title: String, description: String?): TodoListItem
+    fun createTodoList(title: String, description: String?): TodoList
 
-    fun getById(id: String): TodoListItem
+    fun getTodoListById(listId: String): TodoList
 
-    fun updateById(id: String, title: String?, description: String?, status: TodoListItemStatus?): TodoListItem
+    fun updateTodoListById(listId: String, title: String?, description: String?): TodoList
+
+    fun addTodoItemToList(listId: String, itemId: String): TodoList
+
+    fun removeTodoItemFromList(listId: String, itemId: String): TodoList
+
+    fun createTodoListItem(title: String, description: String?): TodoListItem
+
+    fun getTodoListItemById(itemId: String): TodoListItem
+
+    fun updateTodoListItemById(itemId: String, title: String?, description: String?, status: TodoListItemStatus?): TodoListItem
+
+    fun deleteTodoListItemById(itemId: String): TodoListItem
 }
