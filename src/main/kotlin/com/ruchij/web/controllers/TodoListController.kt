@@ -5,6 +5,7 @@ import com.ruchij.web.requests.CreateTodoListItemRequest
 import com.ruchij.web.requests.CreateTodoListRequest
 import com.ruchij.web.requests.UpdateTodoListItemRequest
 import com.ruchij.web.responses.TodoListItemResponse
+import com.ruchij.web.responses.TodoListResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -14,7 +15,20 @@ class TodoListController(private val todoListService: TodoListService) {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/list")
-    fun createTodoList(createTodoListRequest: CreateTodoListRequest) {}
+    fun createTodoList(@RequestBody createTodoListRequest: CreateTodoListRequest): TodoListResponse =
+        TodoListResponse.from(todoListService.createTodoList(createTodoListRequest.title, createTodoListRequest.description))
+
+    @GetMapping("/list/{list-id}")
+    fun getTodoListById(@PathVariable("list-id") listId: String): TodoListResponse =
+        TodoListResponse.from(todoListService.getTodoListById(listId))
+
+    @PutMapping("/list/{list-id}/items/{item-id}")
+    fun addTodoItemToList(@PathVariable("list-id") listId: String, @PathVariable("item-id") itemId: String): TodoListResponse =
+        TodoListResponse.from(todoListService.addTodoItemToList(listId, itemId))
+
+    @DeleteMapping("/list/{list-id}/items/{item-id}")
+    fun deleteTodoItemFromList(@PathVariable("list-id") listId: String, @PathVariable("item-id") itemId: String): TodoListResponse =
+        TodoListResponse.from(todoListService.removeTodoItemFromList(listId, itemId))
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/item")
@@ -26,17 +40,17 @@ class TodoListController(private val todoListService: TodoListService) {
     }
 
     @GetMapping("/item/{item-id}")
-    fun getByTodoListItemId(@PathVariable("item-id") todoListItemId: String): TodoListItemResponse =
-        TodoListItemResponse.from(todoListService.getTodoListItemById(todoListItemId))
+    fun getTodoListItemById(@PathVariable("item-id") itemId: String): TodoListItemResponse =
+        TodoListItemResponse.from(todoListService.getTodoListItemById(itemId))
 
     @PutMapping("/item/{item-id}")
-    fun updateByTodoListItemId(
-        @PathVariable("item-id") todoListItemId: String,
+    fun updateTodoListItemById(
+        @PathVariable("item-id") itemId: String,
         @RequestBody updateTodoListItemRequest: UpdateTodoListItemRequest
     ): TodoListItemResponse =
         TodoListItemResponse.from(
             todoListService.updateTodoListItemById(
-                todoListItemId,
+                itemId,
                 updateTodoListItemRequest.title,
                 updateTodoListItemRequest.description,
                 updateTodoListItemRequest.status

@@ -1,4 +1,4 @@
-CREATE TABLE todo_list_mappings(
+CREATE TABLE todo_list_item_mappings(
     todo_list_id VARCHAR(40) NOT NULL,
     todo_list_item_id VARCHAR(40) NOT NULL,
 
